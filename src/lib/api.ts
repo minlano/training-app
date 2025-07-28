@@ -58,7 +58,7 @@ export const aiApi = {
   generateRoutine: async (profile: UserProfile): Promise<WorkoutRoutine> => {
     console.log('API 클라이언트 호출:', profile)
     try {
-      const response = await apiClient.post('/ai/generate-routine', profile)
+      const response = await apiClient.post('/api/generate-routine', profile)
       console.log('API 응답 성공:', response.data)
       return response.data
     } catch (error) {
@@ -73,13 +73,13 @@ export const aiApi = {
     input_data_count: number
     prediction_days: number
   }> => {
-    const response = await apiClient.post('/ai/predict-weight', request)
+    const response = await apiClient.post('/api/predict-weight', request)
     return response.data
   },
 
   // AI 모델 테스트
   testModels: async () => {
-    const response = await apiClient.get('/ai/test')
+    const response = await apiClient.get('/api/health')
     return response.data
   }
 }
@@ -88,7 +88,7 @@ export const aiApi = {
 export const api = {
   // 헬스 체크
   healthCheck: async () => {
-    const response = await apiClient.get('/health')
+    const response = await apiClient.get('/api/health')
     return response.data
   }
 }
