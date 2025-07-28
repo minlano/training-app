@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import { aiApi } from '../lib/api'
-
-import { PageHeader, Button, Modal } from './ui'
+import type { User } from '@supabase/supabase-js'
+import { PageHeader, Card, CardHeader, CardTitle, CardContent, Input, Button, Modal } from './ui'
 
 interface WeightTrackerProps {
-  user: { id: string; email: string; created_at: string }
+  user: User
 }
 
 interface WeightRecord {
@@ -467,7 +467,7 @@ export const WeightTracker: React.FC<WeightTrackerProps> = ({ user }) => {
             setShowPredictionModal(false)
           }}
           title="🔮 AI 체중 예측 (향후 14일)"
-          message={`예측 결과:\n${predictions.slice(0, 7).map((pred) => 
+          message={`예측 결과:\n${predictions.slice(0, 7).map((pred, index) => 
             `${new Date(pred.date).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' })}: ${pred.predicted_weight.toFixed(1)}kg`
           ).join('\n')}\n\n⚠️ 예측은 과거 데이터를 기반으로 한 참고용입니다. 실제 결과와 다를 수 있습니다.`}
           type="info"

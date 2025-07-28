@@ -12,7 +12,7 @@ export const SupabaseTest: React.FC = () => {
     const testConnection = async () => {
       try {
         // 간단한 쿼리로 연결 테스트
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('exercises')
           .select('count')
           .limit(1)

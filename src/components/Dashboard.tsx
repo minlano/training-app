@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
-import { PageHeader, Card, CardHeader, CardTitle, CardContent } from './ui'
+import { PageHeader, Card, CardHeader, CardTitle, CardContent, Button } from './ui'
 
 interface CustomUser {
   id: string
@@ -49,9 +49,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ user }) => {
     setLoading(true)
     try {
       // 병렬로 데이터 조회
-      const [workoutStats, weightStats, recentWorkouts] = await Promise.all([
+      const [workoutStats, weightStats, profileData, recentWorkouts] = await Promise.all([
         fetchWorkoutStats(),
         fetchWeightStats(),
+        fetchProfileData(),
         fetchRecentWorkouts()
       ])
 
@@ -124,7 +125,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ user }) => {
     return { currentWeight, weightChange }
   }
 
-
+  const fetchProfileData = async () => {
+    // 프로필이 없을 가능성이 높으므로 조회하지 않음
+    console.log('프로필 데이터 조회 건너뜀 (신규 계정)')
+    return null
+  }
 
   const fetchRecentWorkouts = async () => {
     const { data: workouts, error } = await supabase
@@ -147,7 +152,17 @@ export const Dashboard: React.FC<DashboardProps> = ({ user }) => {
     return workouts || []
   }
 
+  const calculateGoalProgress = (targetWeight?: number, currentWeight?: number, weightChange?: number) => {
+    if (!targetWeight || !currentWeight) return undefined
 
+    // 목표까지의 거리 계산
+    const totalDistance = Math.abs(targetWeight - currentWeight)
+    if (totalDistance === 0) return 100 // 이미 목표 달성
+
+    // 진행률 계산 (간단한 예시)
+    const progress = Math.max(0, Math.min(100, 100 - (totalDistance / currentWeight) * 100))
+    return Math.round(progress)
+  }
 
   const getMotivationalMessage = () => {
     const messages = [

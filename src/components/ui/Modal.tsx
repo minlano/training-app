@@ -17,7 +17,7 @@ export const Modal: React.FC<ModalProps> = ({
   onConfirm,
   title,
   message,
-
+  type = 'info',
   confirmText = '확인',
   cancelText = '취소'
 }) => {

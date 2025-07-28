@@ -78,7 +78,11 @@ export const Auth: React.FC<AuthProps> = ({ onAuthChange }) => {
         }
     }
 
-
+    const handleSignOut = async () => {
+        localStorage.removeItem('customUser')
+        onAuthChange(null)
+        setMessage('로그아웃되었습니다.')
+    }
 
     return (
         <div style={{

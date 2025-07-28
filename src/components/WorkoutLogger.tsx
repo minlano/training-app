@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
-
-import { PageHeader, Button } from './ui'
+import type { User } from '@supabase/supabase-js'
+import { PageHeader, Card, CardHeader, CardTitle, CardContent, Input, Button } from './ui'
 
 interface WorkoutLoggerProps {
-  user: { id: string; email: string; created_at: string }
+  user: User
 }
 
 interface Exercise {

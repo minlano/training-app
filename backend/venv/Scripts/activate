@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="$(dirname "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")")"
+VIRTUAL_ENV="C:\Users\82109\Documents\GitHub\traning-app\backend\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

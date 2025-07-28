@@ -264,7 +264,25 @@ function App() {
     }
   }
 
+  // 샘플 운동 루틴 생성 (기본값)
+  const generateSampleRoutine = async () => {
+    setLoading(true)
+    try {
+      const sampleProfile: UserProfileType = {
+        fitness_level: 'beginner',
+        goal: 'weight_loss',
+        available_days: 3,
+        time_per_session: 45
+      }
 
+      const result = await aiApi.generateRoutine(sampleProfile)
+      setRoutine(result)
+    } catch (error) {
+      console.error('루틴 생성 실패:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   // 로그인하지 않은 경우
   if (!user) {
@@ -560,9 +578,9 @@ function App() {
       case 'profile':
         return <UserProfile user={user} />
       case 'workout':
-        return <WorkoutLogger user={user} />
+        return <WorkoutLogger user={{ id: user.id, email: user.email, created_at: user.created_at }} />
       case 'weight':
-        return <WeightTracker user={user} />
+        return <WeightTracker user={{ id: user.id, email: user.email, created_at: user.created_at }} />
       case 'ai':
         return <AIRoutineComponent />
       case 'system':

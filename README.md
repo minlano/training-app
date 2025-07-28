@@ -60,22 +60,23 @@ training-app/
 
 ## 🚀 설치 및 실행
 
-### 로컬 개발 환경
-
-#### 1. 저장소 클론
+### 1. 저장소 클론
 ```bash
 git clone <repository-url>
 cd training-app
 ```
 
-#### 2. 환경 설정
+### 2. 환경 설정
 ```bash
-# 환경 변수 파일 생성
-# .env.local 파일에 다음 내용 추가:
-VITE_API_BASE_URL=http://localhost:8000
+# 환경 변수 파일 복사
+cp .env.example .env
+
+# .env 파일에서 Supabase 설정 업데이트
+# SUPABASE_URL=your_supabase_url
+# SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-#### 3. 백엔드 설정
+### 3. 백엔드 설정
 ```bash
 cd backend
 
@@ -87,7 +88,7 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-#### 4. 프론트엔드 설정
+### 4. 프론트엔드 설정
 ```bash
 # 프로젝트 루트로 이동
 cd ..
@@ -96,7 +97,7 @@ cd ..
 npm install
 ```
 
-#### 5. 데이터베이스 마이그레이션
+### 5. 데이터베이스 마이그레이션
 ```bash
 # Supabase CLI 설치 (선택사항)
 npm install -g supabase
@@ -167,49 +168,6 @@ npm run dev
 supabase db push
 ```
 
-## 🚀 배포
-
-### Vercel 배포 (프론트엔드)
-
-#### 1. Vercel CLI 설치
-```bash
-npm install -g vercel
-```
-
-#### 2. 배포
-```bash
-# Vercel 로그인 및 배포
-vercel
-
-# 또는 프로덕션 배포
-vercel --prod
-```
-
-#### 3. 환경 변수 설정
-Vercel 대시보드에서 다음 환경 변수를 설정하세요:
-```
-VITE_API_BASE_URL=https://your-backend-url.com
-```
-
-### 백엔드 배포 옵션
-
-#### Railway (추천)
-```bash
-# Railway CLI 설치
-npm install -g @railway/cli
-
-# 로그인 및 배포
-railway login
-railway init
-railway up
-```
-
-#### Vercel Functions
-```bash
-# api 폴더에 serverless 함수 생성
-# vercel.json에 함수 설정 추가
-```
-
 ## 🐛 문제 해결
 
 ### 일반적인 문제들
@@ -240,16 +198,6 @@ railway up
    npm cache clean --force
    rm -rf node_modules
    npm install
-   ```
-
-4. **Vercel 배포 문제**
-   ```bash
-   # 빌드 오류 확인
-   npm run build
-   
-   # 환경 변수 확인
-   vercel env ls
-   ```
    ```
 
 ## 📈 향후 개발 계획
@@ -357,3 +305,25 @@ SOFTWARE.
 ---
 
 **⭐ 이 프로젝트가 도움이 되었다면 스타를 눌러주세요!**
+
+## ✅ 정리 완료!
+
+### 현재 작동하는 배포 URL:
+```
+https://training-7uico3sxf-minjaes-projects-e8f56dd8.vercel.app
+```
+
+### 이전 작동하는 배포 URL:
+```
+https://training-mutxhg75d-minjaes-projects-e8f56dd8.vercel.app
+```
+
+### 다음 단계:
+1. **Vercel 대시보드**에서 환경 변수를 업데이트하세요:
+   ```
+   VITE_API_BASE_URL=https://training-7uico3sxf-minjaes-projects-e8f56dd8.vercel.app
+   ```
+
+2. **브라우저에서 테스트**해보세요!
+
+실패한 배포들은 정리했으니 이제 깔끔하게 관리됩니다. 🚀

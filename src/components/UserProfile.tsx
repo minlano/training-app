@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
-import { PageHeader, Card, CardHeader, CardTitle, CardContent, Input, Select, Button } from './ui'
+import { PageHeader, Card, CardHeader, CardTitle, CardContent, Input, Select, Button, Checkbox, CheckboxGroup } from './ui'
 
 interface CustomUser {
   id: string
@@ -255,7 +255,23 @@ export const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
     await updateProfile(updates)
   }
 
+  const saveWeightRecord = async (weight: number) => {
+    try {
+      const { error } = await supabase
+        .from('weight_records')
+        .insert([{
+          account_id: user.id, // account_id 사용
+          record_date: new Date().toISOString().split('T')[0],
+          weight: weight
+        }])
 
+      if (error) throw error
+      setMessage('체중 기록이 저장되었습니다!')
+    } catch (error) {
+      console.error('체중 기록 저장 오류:', error)
+      setMessage('체중 기록 저장 중 오류가 발생했습니다.')
+    }
+  }
 
   if (loading) {
     return (
@@ -269,7 +285,20 @@ export const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
 
   if (!profile) {
     // 프로필이 없으면 빈 폼을 보여줌
-
+    const emptyProfile: Profile = {
+      id: '',
+      account_id: user.id,
+      email: user.email,
+      full_name: null,
+      height: null,
+      gender: null,
+      fitness_level: 'beginner',
+      primary_goal: 'maintenance',
+      target_weight: null,
+      available_days_per_week: 3,
+      preferred_workout_duration: 60,
+      preferred_days: []
+    }
 
     return (
       <div className="w-full space-y-6" style={{ color: '#ffffff' }}>
