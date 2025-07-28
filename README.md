@@ -17,11 +17,8 @@ setup.bat
 # VITE_SUPABASE_URL=your_supabase_url
 # VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 
-# 3. 서버 시작 (cmd)
+# 3. 서버 시작
 run.bat
-
-# 3. 서버 시작 (PowerShell)
-.\run.ps1
 ```
 
 ### Linux/Mac 사용자
@@ -143,7 +140,7 @@ SUPABASE_ANON_KEY=your_supabase_anon_key
 
 - 🤖 AI 운동 루틴 생성
 - 📊 체중 예측 및 관리
-- 💪 운동 로그 기록
+- 📈 운동 로그 기록
 - 📈 진행 상황 추적
 - 🔐 사용자 인증
 
