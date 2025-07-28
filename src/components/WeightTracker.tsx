@@ -53,7 +53,7 @@ export const WeightTracker: React.FC<WeightTrackerProps> = ({ user }) => {
       if (error) throw error
       setWeightRecords(data || [])
     } catch (error) {
-      console.error('체중 기록 조회 오류:', error)
+      // 에러 처리
     }
   }
 
@@ -83,7 +83,6 @@ export const WeightTracker: React.FC<WeightTrackerProps> = ({ user }) => {
       
       alert('체중 기록이 저장되었습니다!')
     } catch (error) {
-      console.error('체중 기록 저장 오류:', error)
       alert('체중 기록 저장 중 오류가 발생했습니다.')
     } finally {
       setLoading(false)
@@ -114,7 +113,6 @@ export const WeightTracker: React.FC<WeightTrackerProps> = ({ user }) => {
       setPredictions(result.predictions)
       setShowPredictionModal(true)
     } catch (error) {
-      console.error('체중 예측 오류:', error)
       alert('체중 예측 중 오류가 발생했습니다.')
     } finally {
       setPredicting(false)
@@ -137,7 +135,6 @@ export const WeightTracker: React.FC<WeightTrackerProps> = ({ user }) => {
       fetchWeightRecords()
       alert('체중 기록이 삭제되었습니다!')
     } catch (error) {
-      console.error('체중 기록 삭제 오류:', error)
       alert('체중 기록 삭제 중 오류가 발생했습니다.')
     }
   }

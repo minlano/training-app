@@ -63,17 +63,14 @@ export interface WorkoutRoutine {
   recommendations: string[]
 }
 
-// AI API 함수들
+  // AI API 함수들
 export const aiApi = {
   // 운동 루틴 생성
   generateRoutine: async (profile: UserProfile): Promise<WorkoutRoutine> => {
-    console.log('API 클라이언트 호출:', profile)
     try {
       const response = await apiClient.post('/api/generate-routine', profile)
-      console.log('API 응답 성공:', response.data)
       return response.data
     } catch (error) {
-      console.error('API 호출 실패:', error)
       throw error
     }
   },

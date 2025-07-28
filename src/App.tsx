@@ -27,12 +27,10 @@ function App() {
   useEffect(() => {
     // localStorage에서 사용자 정보 복원 (로그아웃 후에는 복원하지 않음)
     const savedUser = localStorage.getItem('customUser')
-    console.log('localStorage에서 읽은 사용자 데이터:', savedUser)
     
     // 로그아웃 플래그 확인
     const logoutFlag = sessionStorage.getItem('logout_flag')
     if (logoutFlag === 'true') {
-      console.log('로그아웃 플래그 감지, 사용자 데이터 복원하지 않음')
       sessionStorage.removeItem('logout_flag')
       localStorage.removeItem('customUser')
       setUser(null)
@@ -42,7 +40,6 @@ function App() {
     // 강제 로그아웃 확인
     const forceLogout = sessionStorage.getItem('force_logout')
     if (forceLogout === 'true') {
-      console.log('강제 로그아웃 감지, 모든 데이터 클리어')
       sessionStorage.removeItem('force_logout')
       localStorage.clear()
       sessionStorage.clear()
@@ -56,19 +53,15 @@ function App() {
         // 유효한 사용자 데이터인지 확인
         if (userData && userData.id && userData.email && userData.created_at) {
           setUser(userData)
-          console.log('저장된 사용자 정보 복원:', userData)
         } else {
-          console.log('유효하지 않은 사용자 데이터, 로그아웃 처리')
           localStorage.removeItem('customUser')
           setUser(null)
         }
       } catch (error) {
-        console.error('사용자 정보 파싱 오류:', error)
         localStorage.removeItem('customUser')
         setUser(null)
       }
     } else {
-      console.log('localStorage에 사용자 데이터 없음, 로그인 필요')
       setUser(null)
     }
 
@@ -78,7 +71,6 @@ function App() {
         await api.healthCheck()
         setIsConnected(true)
       } catch (error) {
-        console.error('API 연결 실패:', error)
         setIsConnected(false)
       } finally {
         setLoading(false)
@@ -91,11 +83,9 @@ function App() {
   // 프로필 기반 AI 루틴 생성 이벤트 리스너
   useEffect(() => {
     const handleGenerateRoutine = (event: CustomEvent) => {
-      console.log('App.tsx에서 generateRoutine 이벤트 수신:', event.detail)
       generateRoutineFromProfile(event.detail)
     }
 
-    console.log('generateRoutine 이벤트 리스너 등록')
     window.addEventListener('generateRoutine', handleGenerateRoutine as EventListener)
 
     return () => {
@@ -112,19 +102,14 @@ function App() {
 
   // 프로필 기반 운동 루틴 생성
   const generateRoutineFromProfile = async (profileData: UserProfileType) => {
-    console.log('generateRoutineFromProfile 호출됨:', profileData)
     setLoading(true)
     try {
-      console.log('AI API 호출 시작...')
       const result = await aiApi.generateRoutine(profileData)
-      console.log('AI API 응답:', result)
       setRoutine(result)
-      console.log('루틴 상태 업데이트 완료')
     } catch (error) {
-      console.error('프로필 기반 루틴 생성 실패:', error)
+      // 에러 처리
     } finally {
       setLoading(false)
-      console.log('로딩 상태 해제')
     }
   }
 
@@ -142,82 +127,44 @@ function App() {
     if (!user) return
 
     try {
-      console.log('계정 삭제 시작:', user.id)
-      
-      // 자체 계정 시스템에서 완전한 계정 삭제
-      console.log('자체 계정 시스템에서 완전한 계정 삭제 시도...')
-      
       // 1. 운동 기록 삭제
       const { error: workoutDeleteError } = await supabase
         .from('workouts')
         .delete()
         .eq('account_id', user.id)
-      
-      console.log('운동 기록 삭제 결과:', workoutDeleteError)
 
       // 2. 체중 기록 삭제  
       const { error: weightDeleteError } = await supabase
         .from('weight_records')
         .delete()
         .eq('account_id', user.id)
-      
-      console.log('체중 기록 삭제 결과:', weightDeleteError)
 
       // 3. 프로필 삭제
       const { error: profileDeleteError } = await supabase
         .from('user_profiles')
         .delete()
         .eq('account_id', user.id)
-      
-      console.log('프로필 삭제 결과:', profileDeleteError)
 
       // 4. 계정 삭제
       const { error: accountDeleteError } = await supabase
         .from('accounts')
         .delete()
         .eq('id', user.id)
-      
-      console.log('계정 삭제 결과:', accountDeleteError)
 
       if (workoutDeleteError || weightDeleteError || profileDeleteError || accountDeleteError) {
-        console.error('삭제 실패:', { workoutDeleteError, weightDeleteError, profileDeleteError, accountDeleteError })
         alert('계정 삭제에 실패했습니다. 다시 시도해주세요.')
         setShowDeleteModal(false)
         return
       }
-
-      console.log('모든 데이터 및 계정 삭제 완료')
-
-      // 삭제 후 확인
-      const { data: afterWorkouts } = await supabase
-        .from('workouts')
-        .select('*')
-        .eq('user_id', user.id)
-      console.log('삭제 후 운동 기록 수:', afterWorkouts?.length || 0)
-
-      const { data: afterWeights } = await supabase
-        .from('weight_records')
-        .select('*')
-        .eq('user_id', user.id)
-      console.log('삭제 후 체중 기록 수:', afterWeights?.length || 0)
-
-      const { data: afterProfile } = await supabase
-        .from('user_profiles')
-        .select('*')
-        .eq('id', user.id)
-      console.log('삭제 후 프로필 존재:', !!afterProfile)
 
       // 계정 삭제 완료
       alert('계정이 완전히 삭제되었습니다.')
       setShowDeleteModal(false)
       
       // 로그아웃 처리
-      console.log('로그아웃 처리 시작')
       localStorage.removeItem('customUser')
       setUser(null) // 사용자 상태 초기화
-      console.log('로그아웃 완료')
     } catch (error) {
-      console.error('계정 삭제 오류:', error)
       alert('계정 삭제 중 오류가 발생했습니다.')
       setShowDeleteModal(false)
     }
@@ -427,38 +374,7 @@ function App() {
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>🔗 연결 상태</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span style={{ color: '#d1d5db' }}>백엔드 API</span>
-                <div className="flex items-center space-x-2">
-                  <div className={`w-3 h-3 rounded-full ${isConnected ? 'bg-green-400' : 'bg-red-400'}`}></div>
-                  <span className={`text-sm font-medium ${isConnected ? 'text-green-400' : 'text-red-400'}`}>
-                    {isConnected ? '연결됨' : '연결 실패'}
-                  </span>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span style={{ color: '#d1d5db' }}>사용자 인증</span>
-                <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 rounded-full bg-green-400"></div>
-                  <span className="text-sm font-medium text-green-400">활성</span>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span style={{ color: '#d1d5db' }}>데이터베이스</span>
-                <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 rounded-full bg-green-400"></div>
-                  <span className="text-sm font-medium text-green-400">연결됨</span>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+
 
         <Card>
           <CardHeader>
@@ -507,8 +423,6 @@ function App() {
               <div className="mt-4">
                 <Button
                   onClick={() => {
-                    console.log('로그아웃 시작')
-                    
                     // 강제 로그아웃 플래그 설정
                     sessionStorage.setItem('force_logout', 'true')
                     
@@ -520,8 +434,6 @@ function App() {
                     setUser(null)
                     setRoutine(null)
                     setLoading(false)
-                    
-                    console.log('로그아웃 완료')
                     
                     // 강제로 페이지 새로고침하여 모든 상태 초기화
                     window.location.reload()

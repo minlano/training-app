@@ -39,9 +39,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
 
   // AI 루틴 생성 함수
   const generatePersonalizedRoutine = async () => {
-    console.log('AI 루틴 생성 버튼 클릭됨')
     if (!profile) {
-      console.log('프로필이 없음')
       return
     }
 
@@ -54,17 +52,13 @@ export const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
         preferred_days: profile.preferred_days || []
       }
 
-      console.log('루틴 프로필 데이터:', routineProfile)
-
       // AI API 호출 (부모 컴포넌트에서 처리하도록 이벤트 발생)
       const event = new CustomEvent('generateRoutine', { 
         detail: routineProfile 
       })
-      console.log('이벤트 발생:', event)
       window.dispatchEvent(event)
       
       setMessage('AI 루틴 생성 요청이 전송되었습니다!')
-      console.log('AI 루틴 생성 요청 완료')
     } catch (error) {
       console.error('루틴 생성 요청 오류:', error)
       setMessage('루틴 생성 요청 중 오류가 발생했습니다.')
