@@ -1,0 +1,5 @@
+-- 모든 사용자 관련 테이블의 RLS 완전 비활성화
+ALTER TABLE public.accounts DISABLE ROW LEVEL SECURITY;
+ALTER TABLE public.user_profiles DISABLE ROW LEVEL SECURITY;
+ALTER TABLE public.workouts DISABLE ROW LEVEL SECURITY;
+ALTER TABLE public.weight_records DISABLE ROW LEVEL SECURITY; 
