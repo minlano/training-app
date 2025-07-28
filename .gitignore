@@ -27,15 +27,36 @@ backend/env/
 backend/.env
 backend-requirements.txt
 
+# Python additional
+*.pyc
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git.meta
+.pytest_cache/
+
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
+*~
 
 # OS
 .DS_Store
 Thumbs.db
+ehthumbs.db
+Desktop.ini
 
 # Logs
 *.log
@@ -71,3 +92,49 @@ jspm_packages/
 
 # dotenv environment variables file
 .env
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Local configuration files
+config.local.js
+config.local.json
+settings.local.json
+
+# Supabase local files
+.supabase/
+
+# TypeScript
+*.tsbuildinfo
+
+# Vite
+.vite/
+
+# ESLint
+.eslintcache
+
+# Prettier
+.prettierignore
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
