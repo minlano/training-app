@@ -1,19 +1,15 @@
 import axios from 'axios'
 
 // API 클라이언트 설정
-// 배포된 환경에서는 현재 도메인을 사용하고, 로컬에서는 localhost:8000 사용
+// 배포된 환경에서는 항상 현재 도메인을 사용하고, 로컬에서는 localhost:8000 사용
 const getApiBaseUrl = () => {
-  if (import.meta.env.VITE_API_BASE_URL) {
-    return import.meta.env.VITE_API_BASE_URL
-  }
-  
-  // 배포된 환경에서는 현재 도메인 사용
-  if (window.location.hostname !== 'localhost') {
-    return window.location.origin
-  }
-  
   // 로컬 개발 환경
-  return 'http://localhost:8000'
+  if (window.location.hostname === 'localhost') {
+    return 'http://localhost:8000'
+  }
+  
+  // 배포된 환경에서는 항상 현재 도메인 사용
+  return window.location.origin
 }
 
 const API_BASE_URL = getApiBaseUrl()
