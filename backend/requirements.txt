@@ -1,45 +1,10 @@
-# FastAPI 및 웹 서버
 fastapi==0.104.1
 uvicorn[standard]==0.24.0
 python-multipart==0.0.6
-
-# 데이터베이스
 supabase==2.0.2
-psycopg2-binary==2.9.9
-
-# 데이터 처리 및 분석
 pandas==2.1.3
 numpy==1.25.2
-
-# 머신러닝
 scikit-learn==1.3.2
 joblib==1.3.2
-
-# 자연어 처리 (향후 NLP 기능용)
-nltk==3.8.1
-spacy==3.7.2
-
-# 이미지 처리 (향후 식단 사진 분석용)
-Pillow==10.1.0
-opencv-python==4.8.1.78
-
-# 시계열 예측 (체중 예측용)
-prophet==1.1.5
-
-# API 클라이언트
 requests==2.31.0
-httpx==0.25.2
-
-# 환경 변수 관리
-python-dotenv==1.0.0
-
-# 로깅
-loguru==0.7.2
-
-# 테스트
-pytest==7.4.3
-pytest-asyncio==0.21.1
-
-# 개발 도구
-black==23.11.0
-flake8==6.1.0
+python-dotenv==1.0.0 

@@ -35,3 +35,6 @@ __pycache__/
 backend/venv/
 backend/env/
 backend/.env
+backend-requirements.txt
+
+.vercel
