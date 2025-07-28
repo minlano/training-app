@@ -17,6 +17,13 @@ echo.
 
 echo [2/5] Python 가상환경 생성 중...
 cd backend
+
+REM 기존 가상환경 삭제 (깨끗한 설치를 위해)
+if exist "venv" (
+    echo 기존 가상환경을 삭제하고 새로 생성합니다...
+    rmdir /s /q venv
+)
+
 python -m venv venv
 if %errorlevel% neq 0 (
     echo ❌ Python 가상환경 생성 실패
@@ -38,6 +45,7 @@ echo ✅ Python 가상환경 활성화 완료
 echo.
 
 echo [4/5] Python 의존성 설치 중...
+pip install --upgrade pip
 pip install -r requirements.txt
 if %errorlevel% neq 0 (
     echo ❌ Python 의존성 설치 실패

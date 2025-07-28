@@ -7,14 +7,33 @@ echo.
 
 echo [1/2] 백엔드 서버 시작 중...
 cd backend
-call venv\Scripts\activate.bat
-if %errorlevel% neq 0 (
-    echo ❌ 가상환경 활성화 실패
-    echo 가상환경이 설치되어 있는지 확인해주세요.
-    echo setup.bat을 먼저 실행하세요.
+
+REM 가상환경이 존재하는지 확인
+if not exist "venv\Scripts\activate.bat" (
+    echo ❌ 가상환경이 설치되지 않았습니다.
+    echo setup.bat을 먼저 실행해주세요.
     pause
     exit /b 1
 )
+
+REM 가상환경 활성화
+call venv\Scripts\activate.bat
+if %errorlevel% neq 0 (
+    echo ❌ 가상환경 활성화 실패
+    echo setup.bat을 다시 실행해주세요.
+    pause
+    exit /b 1
+)
+
+REM Python 패키지 확인
+python -c "import fastapi" 2>nul
+if %errorlevel% neq 0 (
+    echo ❌ FastAPI가 설치되지 않았습니다.
+    echo setup.bat을 다시 실행해주세요.
+    pause
+    exit /b 1
+)
+
 start "Backend Server" cmd /k "chcp 65001 >nul && cd /d %cd% && call venv\Scripts\activate.bat && python main.py"
 echo ✅ 백엔드 서버가 백그라운드에서 시작되었습니다.
 echo.
