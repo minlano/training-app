@@ -10,7 +10,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from models.routine_recommendation import RoutineRecommendationModel
 from models.weight_prediction_model import WeightPredictionModel
 
-router = APIRouter(prefix="/ai", tags=["AI"])
+router = APIRouter(prefix="/api", tags=["AI"])
 
 # 요청 모델들
 class UserProfile(BaseModel):
