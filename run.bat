@@ -1,4 +1,5 @@
 @echo off
+chcp 65001 >nul
 echo ========================================
 echo Training App 서버 시작
 echo ========================================
@@ -7,13 +8,13 @@ echo.
 echo [1/2] 백엔드 서버 시작 중...
 cd backend
 call venv\Scripts\activate.bat
-start "Backend Server" cmd /k "python main.py"
+start "Backend Server" cmd /k "chcp 65001 >nul && python main.py"
 echo ✅ 백엔드 서버가 백그라운드에서 시작되었습니다.
 echo.
 
 echo [2/2] 프론트엔드 서버 시작 중...
 cd ..
-start "Frontend Server" cmd /k "npm run dev"
+start "Frontend Server" cmd /k "chcp 65001 >nul && npm run dev"
 echo ✅ 프론트엔드 서버가 백그라운드에서 시작되었습니다.
 echo.
 
