@@ -17,8 +17,11 @@ setup.bat
 # VITE_SUPABASE_URL=your_supabase_url
 # VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 
-# 3. 서버 시작
+# 3. 서버 시작 (cmd)
 run.bat
+
+# 3. 서버 시작 (PowerShell)
+.\run.ps1
 ```
 
 ### Linux/Mac 사용자
@@ -154,6 +157,6 @@ GitHub에 push하면 자동으로 Vercel에 배포됩니다.
 vercel --prod
 ```
 
-## �� 라이선스
+## 📄 라이선스
 
 MIT License
