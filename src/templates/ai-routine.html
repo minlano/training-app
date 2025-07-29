@@ -1,0 +1,82 @@
+<!-- ===========================================
+     AI 루틴 페이지 HTML 템플릿
+     =========================================== -->
+
+<div class="ai-routine-page">
+  <!-- AI 추천 헤더는 PageHeader 컴포넌트로 처리 -->
+  
+  <!-- 생성된 루틴 표시 -->
+  <div class="routine-container">
+    <h3 class="routine-title">✨ 생성된 운동 계획</h3>
+
+    <!-- 사용자 프로필 -->
+    <div class="profile-section">
+      <h4 class="profile-title">📋 사용자 프로필</h4>
+      <div class="profile-grid">
+        <div class="profile-item level">
+          <p class="profile-label">수준</p>
+          <p class="profile-value"><!-- 운동 수준 --></p>
+        </div>
+        <div class="profile-item goal">
+          <p class="profile-label">목표</p>
+          <p class="profile-value"><!-- 운동 목표 --></p>
+        </div>
+        <div class="profile-item days">
+          <p class="profile-label">주간 일수</p>
+          <p class="profile-value"><!-- 주간 운동 일수 --></p>
+        </div>
+        <div class="profile-item time">
+          <p class="profile-label">시간/회</p>
+          <p class="profile-value"><!-- 운동 시간 --></p>
+        </div>
+        <div class="profile-item preferred">
+          <p class="profile-label">선호 요일</p>
+          <p class="profile-value"><!-- 선호 요일 --></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 주간 루틴 -->
+    <div class="weekly-routine">
+      <!-- 각 요일별 루틴 카드 -->
+      <div class="day-routine">
+        <h5 class="day-title">월요일</h5>
+        <div class="workout-day">
+          <p class="workout-time">⏱️ 45분</p>
+          <div class="exercise-list">
+            <div class="exercise-item">
+              <span class="exercise-dot"></span>
+              <span class="exercise-name">푸시업</span>
+              <span class="exercise-type">(상체)</span>
+            </div>
+            <!-- 더 많은 운동 항목들... -->
+          </div>
+        </div>
+      </div>
+      
+      <!-- 휴식일 예시 -->
+      <div class="day-routine">
+        <h5 class="day-title">일요일</h5>
+        <div class="rest-day">
+          <span class="rest-emoji">🛌</span>
+          <p class="rest-text">휴식일</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 추천사항 -->
+    <div class="recommendations">
+      <h4 class="recommendations-title">
+        <span class="recommendations-icon">💡</span>
+        추천사항
+      </h4>
+      <ul class="recommendations-list">
+        <li class="recommendation-item">
+          <span class="recommendation-dot"></span>
+          <span class="recommendation-text">운동 전 충분한 워밍업을 하세요</span>
+        </li>
+        <!-- 더 많은 추천사항들... -->
+      </ul>
+    </div>
+  </div>
+</div>

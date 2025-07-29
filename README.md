@@ -1,4 +1,4 @@
-# Training App
+# Workout Tracker
 
 **🎓 학습용 프로젝트** - AI 기반 운동 루틴 추천 및 체중 관리 애플리케이션
 
@@ -41,25 +41,72 @@ chmod +x setup.sh run.sh
 ./run.sh
 ```
 
-## 🏗️ 프로젝트 구조
+## 🏗️ 프로젝트 구조 (컴포넌트별 구조)
 
 ```
-training-app/
-├── frontend/          # React + TypeScript + Vite
-│   ├── src/
-│   │   ├── components/
-│   │   ├── lib/
-│   │   └── App.tsx
-├── backend/           # FastAPI + Python
+workout-tracker/
+├── src/
+│   ├── features/            # 기능별 컴포넌트 (Feature-based Architecture)
+│   │   ├── auth/           # 인증 관련
+│   │   │   ├── Auth.tsx
+│   │   │   ├── LoginPage.tsx
+│   │   │   ├── LoginPage.css
+│   │   │   └── index.ts
+│   │   ├── dashboard/      # 대시보드
+│   │   │   ├── Dashboard.tsx
+│   │   │   └── index.ts
+│   │   ├── profile/        # 사용자 프로필
+│   │   │   ├── UserProfile.tsx
+│   │   │   └── index.ts
+│   │   ├── workout/        # 운동 기록
+│   │   │   ├── WorkoutLogger.tsx
+│   │   │   └── index.ts
+│   │   ├── weight/         # 체중 관리
+│   │   │   ├── WeightTracker.tsx
+│   │   │   └── index.ts
+│   │   ├── ai-routine/     # AI 루틴
+│   │   │   ├── AIRoutinePage.tsx
+│   │   │   ├── AIRoutinePage.css
+│   │   │   └── index.ts
+│   │   └── system/         # 시스템 설정
+│   │       ├── SystemPage.tsx
+│   │       ├── SystemPage.css
+│   │       └── index.ts
+│   ├── shared/             # 공유 컴포넌트 및 유틸리티
+│   │   ├── ui/            # 공통 UI 컴포넌트
+│   │   │   ├── Button.tsx
+│   │   │   ├── Card.tsx
+│   │   │   ├── Modal.tsx
+│   │   │   ├── Input.tsx
+│   │   │   ├── styles.css
+│   │   │   └── index.ts
+│   │   ├── layout/        # 레이아웃 컴포넌트
+│   │   │   ├── Header.tsx
+│   │   │   ├── Header.css
+│   │   │   ├── Sidebar.tsx
+│   │   │   └── Sidebar.css
+│   │   ├── api/           # API 관련
+│   │   │   ├── api.ts
+│   │   │   └── supabase.ts
+│   │   ├── utils/         # 유틸리티 함수
+│   │   │   ├── auth.js
+│   │   │   ├── navigation.js
+│   │   │   ├── api-utils.js
+│   │   │   ├── database.js
+│   │   │   ├── ui-utils.js
+│   │   │   └── workout-utils.js
+│   │   └── types/         # TypeScript 타입 정의
+│   └── App.tsx            # 메인 애플리케이션
+├── backend/               # FastAPI + Python
 │   ├── api/
 │   ├── models/
 │   └── main.py
-├── supabase/          # Database migrations
-├── api/               # Vercel Functions
-├── setup.bat          # Windows 자동 설치
-├── run.bat            # Windows 서버 실행
-├── setup.sh           # Linux/Mac 자동 설치
-└── run.sh             # Linux/Mac 서버 실행
+├── supabase/             # Database migrations
+├── api/                  # Vercel Functions
+├── setup.bat             # Windows 자동 설치
+├── run.bat               # Windows 서버 실행
+├── setup.sh              # Linux/Mac 자동 설치
+└── run.sh                # Linux/Mac 서버 실행
 ```
 
 ## 🛠️ 기술 스택
@@ -69,12 +116,18 @@ training-app/
 - TypeScript (타입 안전성)
 - Vite (빠른 개발 서버)
 - Supabase (인증 및 데이터베이스)
+- **일반 CSS** (Tailwind CSS 대신 이해하기 쉬운 CSS 사용)
 
 ### Backend
 - FastAPI (고성능 API 서버)
 - Python 3.10+ (백엔드 로직)
 - Scikit-learn (AI 모델 및 예측)
 - Pandas (데이터 처리 및 분석)
+
+### Architecture
+- **컴포넌트별 구조**: 기능별로 관련 파일들을 함께 관리 (Feature-based Architecture)
+- **공유 컴포넌트**: 재사용 가능한 UI 컴포넌트와 유틸리티를 shared 폴더에 분리
+- **관심사 분리**: 각 기능별로 독립적인 모듈 구성으로 유지보수성 향상
 
 ### Deployment
 - Vercel (프론트엔드 및 API 함수 배포)
@@ -247,6 +300,125 @@ fix-backend.bat
 chmod +x fix-frontend.sh fix-backend.sh
 ./fix-frontend.sh
 ./fix-backend.sh
+```
+
+## 🔧 JavaScript 유틸리티 모듈
+
+### 📁 shared/utils/ 폴더 구조
+```javascript
+src/shared/utils/
+├── auth.js          # 인증 관련 로직
+│   ├── AuthService.saveUser()      # 사용자 정보 저장
+│   ├── AuthService.loadUser()      # 사용자 정보 불러오기
+│   ├── AuthService.logout()        # 로그아웃 처리
+│   └── AuthService.isAuthenticated() # 인증 상태 확인
+├── navigation.js    # 네비게이션 유틸리티
+│   ├── NavigationUtils.getTabTitle()       # 탭 제목 가져오기
+│   ├── NavigationUtils.getTabDescription() # 탭 설명 가져오기
+│   └── NavigationUtils.handleTabChange()   # 탭 변경 처리
+├── api-utils.js     # API 유틸리티
+│   ├── ApiUtils.testConnection()      # API 연결 테스트
+│   ├── ApiUtils.transformProfileData() # 데이터 변환
+│   ├── ApiUtils.handleApiError()      # 에러 처리
+│   └── ApiUtils.withLoading()         # 로딩 상태 관리
+├── database.js      # 데이터베이스 로직
+│   ├── DatabaseUtils.deleteAccount()     # 계정 삭제
+│   ├── DatabaseUtils.getUserProfile()    # 프로필 조회
+│   └── DatabaseUtils.checkDatabaseConnection() # DB 연결 확인
+├── ui-utils.js      # UI 유틸리티
+│   ├── UIUtils.modal.*              # 모달 관리
+│   ├── UIUtils.notification.*       # 알림 메시지
+│   ├── UIUtils.validation.*         # 폼 유효성 검사
+│   └── UIUtils.formatDate()         # 날짜 포맷팅
+└── workout-utils.js # 운동 관련 로직
+    ├── WorkoutUtils.generateRoutine()    # 루틴 생성
+    ├── WorkoutUtils.formatWorkoutTime()  # 시간 포맷팅
+    ├── WorkoutUtils.calculateIntensity() # 강도 계산
+    └── WorkoutUtils.getWeeklyStats()     # 주간 통계
+```
+
+### 🎯 자바 스타일 아키텍처 비교
+
+#### Java Spring Boot 구조:
+```java
+src/main/java/com/example/
+├── controller/     # REST 컨트롤러
+├── service/        # 비즈니스 로직
+├── util/          # 유틸리티 클래스
+├── config/        # 설정 클래스
+└── Application.java # 메인 클래스
+
+src/main/resources/
+├── static/css/    # CSS 파일
+├── static/js/     # JavaScript 파일
+└── templates/     # HTML 템플릿
+```
+
+#### 현재 React 구조 (컴포넌트별 구조 적용):
+```typescript
+src/
+├── features/      # 기능별 컴포넌트 (각 기능의 완전한 모듈)
+│   ├── auth/      # 인증 관련 모든 파일
+│   ├── dashboard/ # 대시보드 관련 모든 파일
+│   └── ...        # 기타 기능별 폴더
+├── shared/        # 공유 리소스
+│   ├── ui/        # 공통 UI 컴포넌트
+│   ├── utils/     # 유틸리티 함수 (service/util 역할)
+│   ├── api/       # API 관련 파일
+│   └── layout/    # 레이아웃 컴포넌트
+└── App.tsx       # 메인 애플리케이션 (Application.java 역할)
+```
+
+### ✨ 코드 사용 예시
+
+#### 1. 인증 처리
+```javascript
+// 기존 방식 (App.tsx에 모든 로직)
+const handleLogout = () => {
+  sessionStorage.setItem('force_logout', 'true')
+  localStorage.clear()
+  sessionStorage.clear()
+  setUser(null)
+  window.location.reload()
+}
+
+// 새로운 방식 (JavaScript 유틸리티 사용)
+import { AuthService } from './shared/utils/auth.js'
+const handleLogout = () => AuthService.logout()
+```
+
+#### 2. API 에러 처리
+```javascript
+// 기존 방식
+try {
+  const result = await api.call()
+} catch (error) {
+  console.error('API 에러:', error)
+  alert('오류가 발생했습니다.')
+}
+
+// 새로운 방식
+import { ApiUtils, UIUtils } from './shared/utils/'
+try {
+  const result = await api.call()
+} catch (error) {
+  const message = ApiUtils.handleApiError(error, '데이터 로드')
+  UIUtils.notification.error(message)
+}
+```
+
+#### 3. 데이터베이스 작업
+```javascript
+// 기존 방식 (복잡한 삭제 로직)
+const deleteAccount = async () => {
+  // 50줄의 복잡한 삭제 로직...
+}
+
+// 새로운 방식
+import { DatabaseUtils } from './shared/utils/database.js'
+const deleteAccount = async () => {
+  await DatabaseUtils.deleteAccount(supabase, userId)
+}
 ```
 
 ## 📱 사용법

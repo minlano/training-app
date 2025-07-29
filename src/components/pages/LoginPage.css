@@ -1,0 +1,49 @@
+/* 로그인 페이지 */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, #000000 0%, #000000 40%, #111111 100%);
+}
+
+.login-container {
+  max-width: 400px;
+  width: 100%;
+  margin: 0 16px;
+}
+
+/* 로그인 헤더 */
+.login-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.app-logo {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(to right, #3b82f6, #8b5cf6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.logo-emoji {
+  color: white;
+  font-size: 32px;
+}
+
+.app-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+
+.app-subtitle {
+  color: #ffffff;
+  margin: 0;
+}

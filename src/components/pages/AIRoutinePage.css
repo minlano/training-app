@@ -1,0 +1,257 @@
+/* AI 루틴 페이지 */
+.ai-routine-page {
+  width: 100%;
+  color: #ffffff;
+}
+
+.ai-routine-page > * + * {
+  margin-top: 24px;
+}
+
+/* 루틴 컨테이너 */
+.routine-container {
+  padding: 24px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+  border: 1px solid #3730a3;
+}
+
+.routine-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-align: center;
+  color: #ffffff;
+}
+
+/* 프로필 섹션 */
+.profile-section {
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  background-color: #1f2937;
+}
+
+.profile-title {
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .profile-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.profile-item {
+  text-align: center;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.profile-item.level {
+  background-color: #1e40af;
+}
+
+.profile-item.goal {
+  background-color: #059669;
+}
+
+.profile-item.days {
+  background-color: #d97706;
+}
+
+.profile-item.time {
+  background-color: #7c3aed;
+}
+
+.profile-item.preferred {
+  background-color: #dc2626;
+}
+
+.profile-label {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.profile-item.level .profile-label {
+  color: #dbeafe;
+}
+
+.profile-item.goal .profile-label {
+  color: #d1fae5;
+}
+
+.profile-item.days .profile-label {
+  color: #fef3c7;
+}
+
+.profile-item.time .profile-label {
+  color: #ede9fe;
+}
+
+.profile-item.preferred .profile-label {
+  color: #fee2e2;
+}
+
+.profile-value {
+  color: #ffffff;
+  margin: 0;
+}
+
+/* 주간 루틴 */
+.weekly-routine {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+@media (min-width: 768px) {
+  .weekly-routine {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .weekly-routine {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.day-routine {
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #1f2937;
+  border: 1px solid #374151;
+  transition: box-shadow 0.2s;
+}
+
+.day-routine:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.day-title {
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-align: center;
+  color: #ffffff;
+}
+
+/* 휴식일 */
+.rest-day {
+  text-align: center;
+  padding: 16px 0;
+}
+
+.rest-emoji {
+  font-size: 32px;
+}
+
+.rest-text {
+  margin-top: 8px;
+  color: #9ca3af;
+}
+
+/* 운동일 */
+.workout-time {
+  font-size: 12px;
+  margin-bottom: 12px;
+  text-align: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #d1d5db;
+  background-color: #374151;
+}
+
+.exercise-list > * + * {
+  margin-top: 8px;
+}
+
+.exercise-item {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.exercise-item > * + * {
+  margin-left: 8px;
+}
+
+.exercise-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #60a5fa;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.exercise-name {
+  color: #ffffff;
+}
+
+.exercise-type {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* 추천사항 */
+.recommendations {
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #1f2937;
+}
+
+.recommendations-title {
+  font-weight: 500;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+}
+
+.recommendations-icon {
+  font-size: 18px;
+  margin-right: 8px;
+}
+
+.recommendations-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recommendations-list > * + * {
+  margin-top: 8px;
+}
+
+.recommendation-item {
+  display: flex;
+  align-items: flex-start;
+  font-size: 14px;
+}
+
+.recommendation-item > * + * {
+  margin-left: 8px;
+}
+
+.recommendation-dot {
+  width: 6px;
+  height: 6px;
+  background-color: #60a5fa;
+  border-radius: 50%;
+  margin-top: 8px;
+  flex-shrink: 0;
+}
+
+.recommendation-text {
+  color: #d1d5db;
+}

@@ -1,0 +1,74 @@
+/* 시스템 페이지 */
+.system-page > * + * {
+  margin-top: 24px;
+}
+
+/* 시스템 그리드 */
+.system-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 768px) {
+  .system-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 사용자 정보 */
+.user-info-list > * + * {
+  margin-top: 12px;
+}
+
+.user-info-item {
+  /* 기본 스타일 */
+}
+
+.info-label {
+  font-size: 14px;
+  color: #d1d5db;
+}
+
+.info-value {
+  font-weight: 500;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* 계정 관리 */
+.account-management > * + * {
+  margin-top: 16px;
+}
+
+.management-section {
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #1f2937;
+  border: 1px solid #374151;
+}
+
+.delete-section {
+  border-color: #dc2626;
+}
+
+.section-content {
+  flex: 1;
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+  margin: 0 0 4px 0;
+}
+
+.section-description {
+  font-size: 14px;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.section-action {
+  margin-top: 16px;
+}
