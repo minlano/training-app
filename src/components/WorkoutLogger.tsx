@@ -40,6 +40,7 @@ export const WorkoutLogger: React.FC<WorkoutLoggerProps> = ({ user }) => {
   const [workouts, setWorkouts] = useState<WorkoutRecord[]>([])
   const [loading, setLoading] = useState(false)
   const [showForm, setShowForm] = useState(false)
+  const [generatedRoutine, setGeneratedRoutine] = useState<any>(null)
   const [currentWorkout, setCurrentWorkout] = useState<WorkoutRecord>({
     user_id: user.id,
     workout_date: new Date().toISOString().split('T')[0],
@@ -53,7 +54,62 @@ export const WorkoutLogger: React.FC<WorkoutLoggerProps> = ({ user }) => {
   useEffect(() => {
     fetchExercises()
     fetchWorkouts()
+    loadGeneratedRoutine()
+    
+    // 루틴 생성 이벤트 리스너 추가
+    const handleRoutineGenerated = (event: any) => {
+      console.log('루틴 생성 이벤트 수신:', event.detail)
+      loadGeneratedRoutine()
+    }
+    
+    window.addEventListener('routineGenerated', handleRoutineGenerated)
+    
+    return () => {
+      window.removeEventListener('routineGenerated', handleRoutineGenerated)
+    }
   }, [])
+
+  const loadGeneratedRoutine = () => {
+    try {
+      const savedRoutine = localStorage.getItem('generatedRoutine')
+      if (savedRoutine) {
+        const routineData = JSON.parse(savedRoutine)
+        console.log('저장된 루틴 로드:', routineData)
+        setGeneratedRoutine(routineData)
+      }
+    } catch (error) {
+      console.error('루틴 로드 오류:', error)
+    }
+  }
+
+  const clearGeneratedRoutine = () => {
+    localStorage.removeItem('generatedRoutine')
+    setGeneratedRoutine(null)
+  }
+
+  const applyRoutineToWorkout = (dayRoutine: any, dayName: string) => {
+    const newWorkout: WorkoutRecord = {
+      user_id: user.id,
+      workout_date: new Date().toISOString().split('T')[0],
+      title: `AI 추천 - ${dayName} (${dayRoutine.type})`,
+      notes: `AI가 생성한 맞춤 운동 루틴입니다.`,
+      total_duration: parseInt(dayRoutine.total_time) || 60,
+      total_calories_burned: 0,
+      exercises: dayRoutine.exercises.map((ex: any) => ({
+        exercise_id: '',
+        exercise_name: ex.name,
+        sets: ex.sets ? parseInt(ex.sets.split('세트')[0]) : 1,
+        duration: ex.duration ? parseInt(ex.duration) : 30,
+        calories_burned: 0
+      }))
+    }
+    
+    setCurrentWorkout(newWorkout)
+    setShowForm(true)
+    
+    // 칼로리 계산
+    setTimeout(() => calculateTotalCalories(), 100)
+  }
 
   const fetchExercises = async () => {
     try {
@@ -334,6 +390,152 @@ export const WorkoutLogger: React.FC<WorkoutLoggerProps> = ({ user }) => {
           {showForm ? '❌ 취소' : '➕ 새 운동 기록'}
         </Button>
       </PageHeader>
+
+      {/* AI 생성 루틴 표시 */}
+      {generatedRoutine && (
+        <div className="p-6 rounded-xl" style={{ backgroundColor: '#1f2937', border: '2px solid #10b981' }}>
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center">
+              <span className="text-2xl mr-3">🤖</span>
+              <div>
+                <h2 className="text-xl font-bold" style={{ color: '#ffffff' }}>AI 맞춤 운동 루틴</h2>
+                <p className="text-sm" style={{ color: '#10b981' }}>
+                  생성일: {new Date(generatedRoutine.generatedAt).toLocaleDateString('ko-KR')}
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={clearGeneratedRoutine}
+              className="px-4 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105"
+              style={{
+                backgroundColor: '#dc2626',
+                color: 'white',
+                border: 'none'
+              }}
+            >
+              🗑️ 루틴 삭제
+            </button>
+          </div>
+
+          {/* 프로필 정보 */}
+          <div className="mb-6 p-4 rounded-lg" style={{ backgroundColor: '#111827', border: '1px solid #374151' }}>
+            <h3 className="text-lg font-bold mb-3" style={{ color: '#ffffff' }}>📊 프로필 기반 설정</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+              <div>
+                <span style={{ color: '#9ca3af' }}>운동 수준:</span>
+                <div style={{ color: '#ffffff' }}>{generatedRoutine.userProfile.fitness_level}</div>
+              </div>
+              <div>
+                <span style={{ color: '#9ca3af' }}>목표:</span>
+                <div style={{ color: '#ffffff' }}>{generatedRoutine.userProfile.goal}</div>
+              </div>
+              <div>
+                <span style={{ color: '#9ca3af' }}>주간 운동일:</span>
+                <div style={{ color: '#ffffff' }}>{generatedRoutine.userProfile.available_days}일</div>
+              </div>
+              <div>
+                <span style={{ color: '#9ca3af' }}>세션 시간:</span>
+                <div style={{ color: '#ffffff' }}>{generatedRoutine.userProfile.time_per_session}분</div>
+              </div>
+            </div>
+            {generatedRoutine.userProfile.preferred_days && generatedRoutine.userProfile.preferred_days.length > 0 && (
+              <div className="mt-3">
+                <span style={{ color: '#9ca3af' }}>선호 요일:</span>
+                <div className="flex flex-wrap gap-2 mt-1">
+                  {generatedRoutine.userProfile.preferred_days.map((day: string, idx: number) => (
+                    <span key={idx} className="px-2 py-1 rounded-full text-xs font-medium"
+                          style={{ backgroundColor: '#3b82f6', color: '#ffffff' }}>
+                      {day}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* 주간 루틴 */}
+          <div className="mb-6">
+            <h3 className="text-lg font-bold mb-4" style={{ color: '#ffffff' }}>📅 주간 운동 스케줄</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {Object.entries(generatedRoutine.routine.weekly_routine).map(([day, routine]: [string, any]) => (
+                <div key={day} className="p-4 rounded-lg" style={{ backgroundColor: '#111827', border: '1px solid #374151' }}>
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="font-bold" style={{ color: '#ffffff' }}>
+                      {day === 'monday' ? '월요일' :
+                       day === 'tuesday' ? '화요일' :
+                       day === 'wednesday' ? '수요일' :
+                       day === 'thursday' ? '목요일' :
+                       day === 'friday' ? '금요일' :
+                       day === 'saturday' ? '토요일' :
+                       day === 'sunday' ? '일요일' : day}
+                    </h4>
+                    <span className="px-2 py-1 rounded-full text-xs font-medium"
+                          style={{ 
+                            backgroundColor: routine.type === 'cardio' ? '#f59e0b' :
+                                           routine.type === 'strength' ? '#dc2626' :
+                                           routine.type === 'hiit' ? '#8b5cf6' : '#10b981',
+                            color: '#ffffff' 
+                          }}>
+                      {routine.type}
+                    </span>
+                  </div>
+                  
+                  <div className="mb-3">
+                    <span className="text-sm" style={{ color: '#9ca3af' }}>총 시간: </span>
+                    <span className="text-sm font-medium" style={{ color: '#ffffff' }}>{routine.total_time}</span>
+                  </div>
+
+                  <div className="space-y-2 mb-4">
+                    {routine.exercises.map((exercise: any, idx: number) => (
+                      <div key={idx} className="text-sm p-2 rounded" style={{ backgroundColor: '#1f2937' }}>
+                        <div className="font-medium" style={{ color: '#ffffff' }}>{exercise.name}</div>
+                        <div style={{ color: '#9ca3af' }}>
+                          {exercise.duration && `${exercise.duration}`}
+                          {exercise.sets && exercise.reps && ` ${exercise.sets} ${exercise.reps}`}
+                          {exercise.intensity && ` (${exercise.intensity})`}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={() => applyRoutineToWorkout(routine, day === 'monday' ? '월요일' :
+                                                                day === 'tuesday' ? '화요일' :
+                                                                day === 'wednesday' ? '수요일' :
+                                                                day === 'thursday' ? '목요일' :
+                                                                day === 'friday' ? '금요일' :
+                                                                day === 'saturday' ? '토요일' :
+                                                                day === 'sunday' ? '일요일' : day)}
+                    className="w-full py-2 px-3 rounded-lg font-medium transition-all duration-200 transform hover:scale-105"
+                    style={{
+                      background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                      color: 'white',
+                      border: 'none'
+                    }}
+                  >
+                    📝 이 루틴으로 기록하기
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 추천사항 */}
+          {generatedRoutine.routine.recommendations && (
+            <div className="p-4 rounded-lg" style={{ backgroundColor: '#111827', border: '1px solid #374151' }}>
+              <h3 className="text-lg font-bold mb-3" style={{ color: '#ffffff' }}>💡 AI 추천사항</h3>
+              <ul className="space-y-2">
+                {generatedRoutine.routine.recommendations.map((rec: string, idx: number) => (
+                  <li key={idx} className="flex items-start gap-2 text-sm">
+                    <span style={{ color: '#10b981' }}>•</span>
+                    <span style={{ color: '#d1d5db' }}>{rec}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* 운동 기록 폼 */}
       {showForm && (

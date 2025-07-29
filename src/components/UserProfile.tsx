@@ -40,10 +40,13 @@ export const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
   // AI 루틴 생성 함수
   const generatePersonalizedRoutine = async () => {
     if (!profile) {
+      setMessage('프로필을 먼저 저장해주세요.')
       return
     }
 
     try {
+      setMessage('AI 루틴 생성 중...')
+      
       const routineProfile = {
         fitness_level: profile.fitness_level,
         goal: profile.primary_goal,
@@ -52,16 +55,32 @@ export const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
         preferred_days: profile.preferred_days || []
       }
 
-      // AI API 호출 (부모 컴포넌트에서 처리하도록 이벤트 발생)
-      const event = new CustomEvent('generateRoutine', { 
-        detail: routineProfile 
+      console.log('AI 루틴 생성 요청 데이터:', routineProfile)
+
+      // AI API 직접 호출
+      const { aiApi } = await import('../lib/api')
+      const routine = await aiApi.generateRoutine(routineProfile)
+      
+      console.log('생성된 루틴:', routine)
+      
+      // 생성된 루틴을 로컬 스토리지에 저장
+      localStorage.setItem('generatedRoutine', JSON.stringify({
+        routine,
+        generatedAt: new Date().toISOString(),
+        userProfile: routineProfile
+      }))
+      
+      setMessage('AI 맞춤 루틴이 성공적으로 생성되었습니다! 운동 기록 탭에서 확인하세요.')
+      
+      // 생성 완료 이벤트 발생 (선택사항)
+      const event = new CustomEvent('routineGenerated', { 
+        detail: { routine, profile: routineProfile }
       })
       window.dispatchEvent(event)
       
-      setMessage('AI 루틴 생성 요청이 전송되었습니다!')
     } catch (error) {
-      console.error('루틴 생성 요청 오류:', error)
-      setMessage('루틴 생성 요청 중 오류가 발생했습니다.')
+      console.error('루틴 생성 오류:', error)
+      setMessage('루틴 생성 중 오류가 발생했습니다. 네트워크 연결을 확인해주세요.')
     }
   }
 

@@ -5,6 +5,22 @@ echo Training App 서버 시작
 echo ========================================
 echo.
 
+REM 포트 사용 확인
+echo [사전 확인] 포트 사용 상태 확인 중...
+netstat -an | findstr ":5173" >nul 2>&1
+if %errorlevel% equ 0 (
+    echo ⚠️  포트 5173이 이미 사용 중입니다. 기존 프로세스를 종료해주세요.
+    netstat -ano | findstr ":5173"
+    pause
+)
+
+netstat -an | findstr ":8000" >nul 2>&1
+if %errorlevel% equ 0 (
+    echo ⚠️  포트 8000이 이미 사용 중입니다. 기존 프로세스를 종료해주세요.
+    netstat -ano | findstr ":8000"
+    pause
+)
+
 echo [1/2] 백엔드 서버 시작 중...
 cd backend
 
@@ -34,13 +50,25 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
-start "Backend Server" cmd /k "chcp 65001 >nul && cd /d %cd% && call venv\Scripts\activate.bat && python main.py"
+start "Backend Server" cmd /k "chcp 65001 >nul && cd /d %cd% && call venv\Scripts\activate.bat && echo 백엔드 서버 시작 중... && python main.py"
 echo ✅ 백엔드 서버가 백그라운드에서 시작되었습니다.
 echo.
 
 echo [2/2] 프론트엔드 서버 시작 중...
 cd ..
-start "Frontend Server" cmd /k "chcp 65001 >nul && npm run dev"
+
+REM node_modules 확인
+if not exist "node_modules" (
+    echo ❌ node_modules가 없습니다. npm install을 실행합니다...
+    call npm install
+    if %errorlevel% neq 0 (
+        echo ❌ npm install 실패
+        pause
+        exit /b 1
+    )
+)
+
+start "Frontend Server" cmd /k "chcp 65001 >nul && echo 프론트엔드 서버 시작 중... && npm run dev"
 echo ✅ 프론트엔드 서버가 백그라운드에서 시작되었습니다.
 echo.
 

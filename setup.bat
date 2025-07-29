@@ -58,15 +58,23 @@ echo.
 echo [5/5] 환경 변수 파일 생성 중...
 cd ..
 if not exist .env.local (
-    echo # Supabase 설정 > .env.local
-    echo VITE_SUPABASE_URL=your_supabase_url >> .env.local
-    echo VITE_SUPABASE_ANON_KEY=your_supabase_anon_key >> .env.local
+    echo # Supabase 설정 ^(개발용 임시 설정^) > .env.local
+    echo VITE_SUPABASE_URL=https://your-project.supabase.co >> .env.local
+    echo VITE_SUPABASE_ANON_KEY=your-anon-key-here >> .env.local
     echo ✅ .env.local 파일 생성 완료
-    echo ⚠️  .env.local 파일에서 Supabase 설정을 업데이트해주세요.
+    echo ⚠️  .env.local 파일에서 실제 Supabase 설정을 업데이트해주세요.
 ) else (
     echo ✅ .env.local 파일이 이미 존재합니다.
 )
+
 echo.
+echo [추가] 설치 검증 중...
+echo Node.js 버전:
+node --version
+echo npm 버전:
+npm --version
+echo Python 버전:
+python --versi
 
 echo ========================================
 echo 🎉 설치 완료!
