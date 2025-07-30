@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { supabase } from '../lib/supabase'
-import { PageHeader, Card, CardHeader, CardTitle, CardContent, Input, Select, Button, Checkbox, CheckboxGroup } from './ui'
+import { supabase } from '../shared/api/supabase'
+import { PageHeader, Card, CardHeader, CardTitle, CardContent, Input, Select, Button, Checkbox, CheckboxGroup } from '../shared/ui'
 
 interface CustomUser {
   id: string

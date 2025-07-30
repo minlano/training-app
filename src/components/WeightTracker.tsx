@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import { supabase } from '../lib/supabase'
+import { supabase } from '../shared/api/supabase'
 import { aiApi } from '../lib/api'
 import type { User } from '@supabase/supabase-js'
-import { PageHeader, Card, CardHeader, CardTitle, CardContent, Input, Button, Modal } from './ui'
+import { PageHeader, Card, CardHeader, CardTitle, CardContent, Input, Button, Modal } from '../shared/ui'
 
 interface WeightTrackerProps {
   user: User

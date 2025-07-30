@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import { supabase } from '../lib/supabase'
+import { supabase } from '../shared/api/supabase'
 import type { User } from '@supabase/supabase-js'
-import { PageHeader, Card, CardHeader, CardTitle, CardContent, Input, Button } from './ui'
+import { PageHeader, Card, CardHeader, CardTitle, CardContent, Input, Button } from '../shared/ui'
 
 interface WorkoutLoggerProps {
   user: User

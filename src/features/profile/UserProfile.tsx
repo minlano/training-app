@@ -58,7 +58,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
       console.log('AI 루틴 생성 요청 데이터:', routineProfile)
 
       // AI API 직접 호출
-      const { aiApi } = await import('../lib/api')
+      const { aiApi } = await import('../../lib/api')
       const routine = await aiApi.generateRoutine(routineProfile)
       
       console.log('생성된 루틴:', routine)

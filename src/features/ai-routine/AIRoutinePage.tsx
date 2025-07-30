@@ -1,5 +1,5 @@
 import React from 'react'
-import { PageHeader, Button } from '../ui'
+import { PageHeader, Button } from '../../shared/ui'
 import '../../styles/pages.css'
 
 interface AIRoutinePageProps {

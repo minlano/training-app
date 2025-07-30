@@ -1,5 +1,5 @@
 import React from 'react'
-import { PageHeader, Card, CardHeader, CardTitle, CardContent, Button } from '../ui'
+import { PageHeader, Card, CardHeader, CardTitle, CardContent, Button } from '../../shared/ui'
 import '../../styles/pages.css'
 
 interface SystemPageProps {
